@@ -5,7 +5,7 @@ This is a cli tool for managing sites hosted with [sero server](https://github.c
 # Installation
 
 ```
-npm i -g sero
+npm i -g @clowzed/sero
 ```
 
 ## Usage
