@@ -1,6 +1,6 @@
 {
     "name": "@clowzed/sero",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Upload tool for sero server",
     "main": "./dist/run.js",
     "scripts": {

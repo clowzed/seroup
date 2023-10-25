@@ -13,7 +13,7 @@ npm i -g @clowzed/sero
 Run `sero --help` to see help messages
 
 ```
-Usage: run [options] [command]
+Usage: sero [options] [command]
 
 Options:
   -l, --level <level>                 set log level
