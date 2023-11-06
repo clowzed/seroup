@@ -58,6 +58,75 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     return {
         /**
          * 
+         * @summary Add origin
+         * @param {string} [origin] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCorsAddPost: async (origin?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/cors/add`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new URLSearchParams();
+
+
+            if (origin !== undefined) { 
+                localVarFormParams.set('origin', origin as any);
+            }
+    
+    
+            localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams.toString();
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Clear related origins
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCorsClearPost: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/cors/clear`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Enable site
          * @param {string} xSubdomain 
          * @param {*} [options] Override http request option.
@@ -400,6 +469,27 @@ export const DefaultApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @summary Add origin
+         * @param {string} [origin] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiCorsAddPost(origin?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCorsAddPost(origin, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Clear related origins
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiCorsClearPost(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCorsClearPost(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary Enable site
          * @param {string} xSubdomain 
          * @param {*} [options] Override http request option.
@@ -500,6 +590,25 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     return {
         /**
          * 
+         * @summary Add origin
+         * @param {string} [origin] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCorsAddPost(origin?: string, options?: any): AxiosPromise<void> {
+            return localVarFp.apiCorsAddPost(origin, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Clear related origins
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCorsClearPost(options?: any): AxiosPromise<void> {
+            return localVarFp.apiCorsClearPost(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Enable site
          * @param {string} xSubdomain 
          * @param {*} [options] Override http request option.
@@ -590,6 +699,29 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
  * @extends {BaseAPI}
  */
 export class DefaultApi extends BaseAPI {
+    /**
+     * 
+     * @summary Add origin
+     * @param {string} [origin] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public apiCorsAddPost(origin?: string, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).apiCorsAddPost(origin, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Clear related origins
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public apiCorsClearPost(options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).apiCorsClearPost(options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @summary Enable site
