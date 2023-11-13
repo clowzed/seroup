@@ -58,6 +58,97 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     return {
         /**
          * 
+         * @summary Add origin
+         * @param {string} xSubdomain 
+         * @param {string} [origin] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCorsAddPost: async (xSubdomain: string, origin?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'xSubdomain' is not null or undefined
+            assertParamExists('apiCorsAddPost', 'xSubdomain', xSubdomain)
+            const localVarPath = `/api/cors/add`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new URLSearchParams();
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (xSubdomain != null) {
+                localVarHeaderParameter['X-Subdomain'] = String(xSubdomain);
+            }
+
+
+            if (origin !== undefined) { 
+                localVarFormParams.set('origin', origin as any);
+            }
+    
+    
+            localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams.toString();
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Clear related origins
+         * @param {string} xSubdomain 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCorsClearPost: async (xSubdomain: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'xSubdomain' is not null or undefined
+            assertParamExists('apiCorsClearPost', 'xSubdomain', xSubdomain)
+            const localVarPath = `/api/cors/clear`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (xSubdomain != null) {
+                localVarHeaderParameter['X-Subdomain'] = String(xSubdomain);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Enable site
          * @param {string} xSubdomain 
          * @param {*} [options] Override http request option.
@@ -400,6 +491,29 @@ export const DefaultApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @summary Add origin
+         * @param {string} xSubdomain 
+         * @param {string} [origin] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiCorsAddPost(xSubdomain: string, origin?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCorsAddPost(xSubdomain, origin, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Clear related origins
+         * @param {string} xSubdomain 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiCorsClearPost(xSubdomain: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCorsClearPost(xSubdomain, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary Enable site
          * @param {string} xSubdomain 
          * @param {*} [options] Override http request option.
@@ -500,6 +614,27 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     return {
         /**
          * 
+         * @summary Add origin
+         * @param {string} xSubdomain 
+         * @param {string} [origin] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCorsAddPost(xSubdomain: string, origin?: string, options?: any): AxiosPromise<void> {
+            return localVarFp.apiCorsAddPost(xSubdomain, origin, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Clear related origins
+         * @param {string} xSubdomain 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCorsClearPost(xSubdomain: string, options?: any): AxiosPromise<void> {
+            return localVarFp.apiCorsClearPost(xSubdomain, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Enable site
          * @param {string} xSubdomain 
          * @param {*} [options] Override http request option.
@@ -590,6 +725,31 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
  * @extends {BaseAPI}
  */
 export class DefaultApi extends BaseAPI {
+    /**
+     * 
+     * @summary Add origin
+     * @param {string} xSubdomain 
+     * @param {string} [origin] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public apiCorsAddPost(xSubdomain: string, origin?: string, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).apiCorsAddPost(xSubdomain, origin, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Clear related origins
+     * @param {string} xSubdomain 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public apiCorsClearPost(xSubdomain: string, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).apiCorsClearPost(xSubdomain, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @summary Enable site

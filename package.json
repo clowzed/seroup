@@ -1,6 +1,6 @@
 {
     "name": "@clowzed/sero",
-    "version": "1.0.2",
+    "version": "1.1.0",
     "description": "Upload tool for sero server",
     "main": "./dist/run.js",
     "scripts": {
@@ -19,6 +19,7 @@
     "homepage": "https://github.com/clowzed/seroup#readme",
     "dependencies": {
         "@iarna/toml": "^2.2.5",
+        "@web-std/file": "^3.0.3",
         "archiver": "^6.0.1",
         "axios": "^1.5.1",
         "commander": "^11.1.0",

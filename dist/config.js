@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SeroConfig = exports.Server = exports.Credentials = void 0;
+exports.SeroConfig = exports.Server = exports.Cors = exports.Credentials = void 0;
 const TOML = __importStar(require("@iarna/toml"));
 const fs = __importStar(require("fs"));
 const os = __importStar(require("os"));
@@ -53,8 +53,14 @@ const parser = new ts_json_validator_1.TsjsonParser((0, ts_json_validator_1.crea
             },
             required: ["url", "subdomain"],
         }),
+        cors: (0, ts_json_validator_1.createSchema)({
+            type: "object",
+            properties: {
+                url: (0, ts_json_validator_1.createSchema)({ type: "array" }),
+            },
+        }),
     },
-    required: ["credentials", "server"], // possible fields autocomplete here
+    required: ["credentials", "server"],
 }));
 class Credentials {
     static default() {
@@ -66,6 +72,15 @@ class Credentials {
     }
 }
 exports.Credentials = Credentials;
+class Cors {
+    static default() {
+        return new Cors([]);
+    }
+    constructor(origins) {
+        this.origins = origins;
+    }
+}
+exports.Cors = Cors;
 class Server {
     constructor(url, subdomain) {
         this.url = url;
@@ -86,12 +101,13 @@ class SeroConfig {
             });
         }
     }
-    constructor(credentials, server) {
+    constructor(credentials, server, cors) {
         this.credentials = credentials;
         this.server = server;
+        this.cors = cors;
     }
     static default() {
-        return new SeroConfig(Credentials.default(), Server.default());
+        return new SeroConfig(Credentials.default(), Server.default(), Cors.default());
     }
     save(path) {
         const safe_save = neverthrow_1.Result.fromThrowable(fs.writeFileSync, error_1.SeroError.newfrom);
