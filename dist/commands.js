@@ -35,6 +35,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.download = exports.upload = exports.teardown = exports.disable = exports.register = exports.init = exports.enable = exports.process_error = exports.logger = exports.program = void 0;
 const path = __importStar(require("path"));
 const api_1 = require("./sero-api/api");
+const file_1 = require("@web-std/file");
 const log_1 = require("./log");
 const fs_1 = require("fs");
 const commander_1 = require("commander");
@@ -51,6 +52,7 @@ function process_error(err) {
 }
 exports.process_error = process_error;
 const process_api_error = (error) => {
+    console.log(error);
     if (error.response) {
         process_error(error_1.SeroError.from_string(error.response.data.details));
     }
@@ -149,7 +151,7 @@ const register = (directory) => __awaiter(void 0, void 0, void 0, function* () {
     const api = new api_1.DefaultApi(configuration);
     exports.logger.trace("Registering....");
     yield api
-        .apiRegistrationPost(config.credentials.username, config.credentials.password)
+        .apiRegistrationPost(config.credentials.username, config.credentials.password, { withCredentials: false })
         .catch(process_api_error)
         .then(() => exports.logger.info("User was successfully registered!"));
 });
@@ -270,12 +272,22 @@ const upload = (directory) => __awaiter(void 0, void 0, void 0, function* () {
     exports.logger.trace("Uploading...");
     let url = new URL(config.server.url);
     yield api
-        .apiUploadPost(config.server.subdomain, new File([buffer], "archive"))
+        .apiUploadPost(config.server.subdomain, new file_1.File([buffer], "archive"))
         .catch(process_api_error)
         .then(() => {
         exports.logger.trace("Removing zip file " + zip_name);
         (0, fs_1.unlinkSync)(zip_name);
         exports.logger.info("Site was successfully uploaded!");
+    }).then(() => __awaiter(void 0, void 0, void 0, function* () {
+        if (config.cors.origins !== undefined !== null) {
+            for (const origin of config.cors.origins) {
+                exports.logger.trace("Adding origin " + origin);
+                yield api.apiCorsAddPost(config.server.subdomain, origin).catch(process_api_error);
+            }
+        }
+        exports.logger.debug("Cors origins were successfully applied!");
+    }))
+        .then(() => {
         exports.logger.info(`Site is now available at ${url.protocol +
             "//" +
             config.server.subdomain +
@@ -332,7 +344,7 @@ const download = (directory, destination) => __awaiter(void 0, void 0, void 0, f
         .catch(process_api_error)
         .then((response) => {
         exports.logger.trace("File contents were downloaded!");
-        return new Blob([response.data], { type: "application/zip" });
+        return new file_1.Blob([response.data], { type: "application/zip" });
     });
     exports.logger.trace("Writing file contents to destination...");
     fs_1.promises

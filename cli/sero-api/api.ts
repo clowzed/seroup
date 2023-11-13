@@ -59,11 +59,14 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * 
          * @summary Add origin
+         * @param {string} xSubdomain 
          * @param {string} [origin] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiCorsAddPost: async (origin?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiCorsAddPost: async (xSubdomain: string, origin?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'xSubdomain' is not null or undefined
+            assertParamExists('apiCorsAddPost', 'xSubdomain', xSubdomain)
             const localVarPath = `/api/cors/add`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -76,6 +79,14 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
             const localVarFormParams = new URLSearchParams();
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (xSubdomain != null) {
+                localVarHeaderParameter['X-Subdomain'] = String(xSubdomain);
+            }
 
 
             if (origin !== undefined) { 
@@ -98,10 +109,13 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * 
          * @summary Clear related origins
+         * @param {string} xSubdomain 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiCorsClearPost: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiCorsClearPost: async (xSubdomain: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'xSubdomain' is not null or undefined
+            assertParamExists('apiCorsClearPost', 'xSubdomain', xSubdomain)
             const localVarPath = `/api/cors/clear`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -113,6 +127,14 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (xSubdomain != null) {
+                localVarHeaderParameter['X-Subdomain'] = String(xSubdomain);
+            }
 
 
     
@@ -470,22 +492,24 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Add origin
+         * @param {string} xSubdomain 
          * @param {string} [origin] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiCorsAddPost(origin?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCorsAddPost(origin, options);
+        async apiCorsAddPost(xSubdomain: string, origin?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCorsAddPost(xSubdomain, origin, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
          * @summary Clear related origins
+         * @param {string} xSubdomain 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiCorsClearPost(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCorsClearPost(options);
+        async apiCorsClearPost(xSubdomain: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCorsClearPost(xSubdomain, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -591,21 +615,23 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         /**
          * 
          * @summary Add origin
+         * @param {string} xSubdomain 
          * @param {string} [origin] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiCorsAddPost(origin?: string, options?: any): AxiosPromise<void> {
-            return localVarFp.apiCorsAddPost(origin, options).then((request) => request(axios, basePath));
+        apiCorsAddPost(xSubdomain: string, origin?: string, options?: any): AxiosPromise<void> {
+            return localVarFp.apiCorsAddPost(xSubdomain, origin, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Clear related origins
+         * @param {string} xSubdomain 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiCorsClearPost(options?: any): AxiosPromise<void> {
-            return localVarFp.apiCorsClearPost(options).then((request) => request(axios, basePath));
+        apiCorsClearPost(xSubdomain: string, options?: any): AxiosPromise<void> {
+            return localVarFp.apiCorsClearPost(xSubdomain, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -702,24 +728,26 @@ export class DefaultApi extends BaseAPI {
     /**
      * 
      * @summary Add origin
+     * @param {string} xSubdomain 
      * @param {string} [origin] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public apiCorsAddPost(origin?: string, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).apiCorsAddPost(origin, options).then((request) => request(this.axios, this.basePath));
+    public apiCorsAddPost(xSubdomain: string, origin?: string, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).apiCorsAddPost(xSubdomain, origin, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Clear related origins
+     * @param {string} xSubdomain 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public apiCorsClearPost(options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).apiCorsClearPost(options).then((request) => request(this.axios, this.basePath));
+    public apiCorsClearPost(xSubdomain: string, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).apiCorsClearPost(xSubdomain, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
