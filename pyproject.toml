@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "seroup"
+version = "0.2.0"
+description = "CLI tool to manage sero servers"
+authors = ["clowzed <clowzed.work@gmail.com>"]
+readme = "readme.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+requests = "^2.32.3"
+toml = "^0.10.2"
+seroapi = "^0.2.6"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.5.6"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+fix = true
+line-length = 120
+
+[[tool.poetry.source]]
+name = "test-pypi"
+url = "https://test.pypi.org/simple/"
+priority = "explicit"
