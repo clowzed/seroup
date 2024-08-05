@@ -19,9 +19,9 @@ jobs:
           python-version: "3.x"
 
       - name: Install Poetry
-        uses: python-poetry/poetry-action@v2
-        with:
-          poetry-version: "latest"
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Install dependencies
         run: |
