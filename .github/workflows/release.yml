@@ -41,14 +41,6 @@ jobs:
           git push origin v${{ env.PKG_VERSION }}
         env:
           GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
-      - name: Create GitHub release
-        uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
-        with:
-          files: |
-            dist/*.tar.gz
-            dist/*.whl
 
   publish-to-pypi:
     runs-on: ubuntu-latest
