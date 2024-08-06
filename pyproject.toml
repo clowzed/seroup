@@ -1,9 +1,14 @@
 [tool.poetry]
 name = "seroup"
-version = "0.2.4"
+version = "0.2.5"
 description = "CLI tool to manage sero servers"
 authors = ["clowzed <clowzed.work@gmail.com>"]
 readme = "readme.md"
+
+packages = [{ include = "seroup" }]
+
+[tool.poetry.scripts]
+seroup = "seroup.run:main"
 
 [tool.poetry.dependencies]
 python = "^3.12"

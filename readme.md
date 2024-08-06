@@ -46,7 +46,6 @@ seroup <command> <directory (default: current directory)>
 The tool uses a configuration file named `sero.toml` to manage site settings. Below is an example configuration:
 
 ```toml
-Copy code
 [server]
 url = "http://mysite.ru"
 subdomain = "blog"

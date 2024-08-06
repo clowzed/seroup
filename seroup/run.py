@@ -58,6 +58,3 @@ def main():
     configuration = Configuration.from_toml(configuration_file)
 
     command().execute(configuration)
-
-
-main()
